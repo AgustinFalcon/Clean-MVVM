@@ -25,15 +25,15 @@ class NewsViewModel @Inject constructor(
     val users: LiveData<Event<Result<List<User>>>> get() = _users
 
 
-    private val _errorNews = MutableLiveData<Event<String>>()
-    private val _failureNews = MutableLiveData<Event<String>>()
+     val errorNews = MutableLiveData<Event<String>>()
+     val failureNews = MutableLiveData<Event<String>>()
 
     fun loadNews() {
         viewModelScope.launch {
             when(val response = repository.getNews()) {
                 is Result.Success -> _allNews.value = Event(response.data)
-                is Result.Error -> _errorNews.value = Event(response.exception?.message ?: "Hubo un error inesperado")
-                is Result.Failure -> _failureNews.value = Event(response.message ?: "Algo ha pasado")
+                is Result.Error -> errorNews.value = Event(response.exception?.message ?: "Hubo un error inesperado")
+                is Result.Failure -> failureNews.value = Event(response.message ?: "Algo ha pasado")
             }
 
         }
@@ -42,9 +42,15 @@ class NewsViewModel @Inject constructor(
     fun searchNews(query: String) {
         viewModelScope.launch {
             when(val response = repository.searchNews(query)) {
-                is Result.Success -> _allNews.value = Event(response.data)
-                is Result.Error -> _errorNews.value = Event(response.exception?.message ?: "Hubo un error inesperado")
-                is Result.Failure -> _failureNews.value = Event(response.message ?: "Algo ha pasado")
+                is Result.Success -> {
+                    // Se realiza filtrado manual ya que el api no soporta el mismo
+                    val filteredNews = response.data.filter {
+                        it.title.contains(query, ignoreCase = true)
+                    }
+                    _allNews.value = Event(filteredNews)
+                }
+                is Result.Error -> errorNews.value = Event(response.exception?.message ?: "Hubo un error inesperado")
+                is Result.Failure -> failureNews.value = Event(response.message ?: "Algo ha pasado")
             }
         }
     }

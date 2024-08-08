@@ -1,39 +1,25 @@
 package com.example.challengeconexa.ui.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.challengeconexa.databinding.ItemRvUsersHomeBinding
 import com.example.challengeconexa.service.model.New
 
-class NewsAdapter(private val itemClickListener: (New) -> Unit): RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
-
-    private var list = emptyList<New>()
+class NewsAdapter(private val itemClickListener: (New) -> Unit) : ListAdapter<New, NewsAdapter.NewsViewHolder>(DiffCallback()) {
 
     inner class NewsViewHolder(private val binding: ItemRvUsersHomeBinding)
-        :RecyclerView.ViewHolder(binding.root) { /*View.OnClickListener*/
+        : RecyclerView.ViewHolder(binding.root) {
 
-        //init {
-        //    binding.root.setOnClickListener(this)
-        //}
-
-        fun bind(new: New, position: Int) {
+        fun bind(new: New) {
             binding.tvName.text = new.title
             binding.root.setOnClickListener {
                 itemClickListener(new)
             }
         }
-
-        //override fun onClick(v: View?) {
-        //    val position = adapterPosition
-        //   if (position != RecyclerView.NO_POSITION) {
-        //       val name = list.get(position)
-        //       itemClickListener.onItemClick(name)
-        // }
-        //}
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -42,22 +28,17 @@ class NewsAdapter(private val itemClickListener: (New) -> Unit): RecyclerView.Ad
     }
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
-        val name = list.get(position)
-        holder.bind(name, position)
+        val newsItem = getItem(position)
+        holder.bind(newsItem)
     }
 
-    override fun getItemCount(): Int = list.size
+    class DiffCallback : DiffUtil.ItemCallback<New>() {
+        override fun areItemsTheSame(oldItem: New, newItem: New): Boolean {
+            return oldItem.id == newItem.id
+        }
 
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun setList(users: List<New>) {
-        list = users
-        notifyDataSetChanged()
+        override fun areContentsTheSame(oldItem: New, newItem: New): Boolean {
+            return oldItem == newItem
+        }
     }
-
-
-    interface OnItemClickListener {
-        fun onItemClick(name: String)
-    }
-
 }
