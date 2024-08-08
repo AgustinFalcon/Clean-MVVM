@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -15,6 +17,12 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        // Hilt requires Java 8
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [hiltIncremental: 'true']
+            }
+        }
     }
 
     buildTypes {
@@ -47,4 +55,27 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.espresso.core
+
+
+    implementation "com.google.dagger:hilt-android:2.47" // Use the latest stable version
+    kapt "com.google.dagger:hilt-android-compiler:2.47" // Ensure this matches the Hilt version
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.0" // Ensure Kotlin version is compatible
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+
+    // Gson
+    implementation 'com.google.code.gson:gson:2.8.8'
+
+    // Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
+
+    // Google Maps
+    implementation 'com.google.android.gms:play-services-maps:18.0.2'
+}
+
+kapt {
+    correctErrorTypes = true
 }

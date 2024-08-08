@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.challengeconexa.HomeFragment"
+        android:name="com.example.challengeconexa.ui.fragment.HomeFragment"
         android:label="fragment_list"
         tools:layout="@layout/fragment_home" />
 </navigation>
