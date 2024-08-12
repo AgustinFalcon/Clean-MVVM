@@ -24,8 +24,7 @@
         <argument
             android:name="new"
             app:argType="com.example.challengeconexa.service.model.New" />
-    </fragment>
-    <fragment
+    </fragment><fragment
         android:id="@+id/hostFragment"
         android:name="com.example.challengeconexa.ui.fragment.HostFragment"
         android:label="fragment_host"
@@ -36,7 +35,7 @@
         <action
             android:id="@+id/action_hostFragment_to_usersFragment"
             app:destination="@id/usersFragment" />
-    </fragment>
+</fragment>
     <fragment
         android:id="@+id/usersFragment"
         android:name="com.example.challengeconexa.ui.fragment.UsersFragment"
@@ -45,6 +44,9 @@
         <action
             android:id="@+id/action_usersFragment_to_detailUserFragment"
             app:destination="@id/detailUserFragment" />
+        <action
+            android:id="@+id/action_usersFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailUserFragment"
@@ -54,5 +56,14 @@
         <argument
             android:name="user"
             app:argType="com.example.challengeconexa.service.model.User" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.example.challengeconexa.ui.fragment.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" >
+        <argument
+            android:name="location"
+            app:argType="com.example.challengeconexa.service.model.Geo" />
     </fragment>
 </navigation>

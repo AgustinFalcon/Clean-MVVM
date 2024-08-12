@@ -41,8 +41,10 @@ class UsersFragment : Fragment() {
 
 
         val newsAdapter = UserAdapter { user ->
-            val action = UsersFragmentDirections.actionUsersFragmentToDetailUserFragment(user)
+            val action = UsersFragmentDirections.actionUsersFragmentToMapFragment(user.address.geo)
             findNavController().navigate(action)
+            //val action = UsersFragmentDirections.actionUsersFragmentToDetailUserFragment(user)
+            //findNavController().navigate(action)
         }
 
         binding.rvUsers.apply {

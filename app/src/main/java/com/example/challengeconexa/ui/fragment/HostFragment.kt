@@ -7,8 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.challengeconexa.databinding.FragmentHostBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class HostFragment : Fragment() {
 
     private lateinit var binding: FragmentHostBinding
