@@ -9,7 +9,7 @@ import com.example.challengeconexa.databinding.ItemRvUsersBinding
 import com.example.challengeconexa.service.model.New
 import com.example.challengeconexa.service.model.User
 
-class UserAdapter(private val itemClickListener: (User) -> Unit) : ListAdapter<User, UserAdapter.UserViewHolder>(DiffCallback()) {
+class UserAdapter(private val goToDetail: (User) -> Unit, private val goToMaps: (User) -> Unit) : ListAdapter<User, UserAdapter.UserViewHolder>(DiffCallback()) {
 
     inner class UserViewHolder(private val binding: ItemRvUsersBinding)
         : RecyclerView.ViewHolder(binding.root) {
@@ -21,7 +21,11 @@ class UserAdapter(private val itemClickListener: (User) -> Unit) : ListAdapter<U
                 tvId.text = user.id.toString()
             }
             binding.root.setOnClickListener {
-                itemClickListener(user)
+                goToDetail(user)
+            }
+
+            binding.imgLocation.setOnClickListener {
+                goToMaps(user)
             }
         }
     }

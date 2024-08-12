@@ -11,6 +11,8 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.navArgs
 import android.Manifest
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import com.example.challengeconexa.R
 import com.example.challengeconexa.databinding.FragmentMapBinding
 import com.example.challengeconexa.databinding.FragmentNewsBinding
@@ -29,8 +31,24 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var binding: FragmentMapBinding
     private val args: MapFragmentArgs by navArgs()
 
+    private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
+
     private lateinit var googleMap: GoogleMap
     private var userLocation: LatLng? = null
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        requestPermissionLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+                if (isGranted) {
+                    setupMap()
+                } else {
+                    Toast.makeText(requireContext(), "Acepte los permisos!", Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,11 +66,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
             != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQUEST_CODE
-            )
+            requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         } else {
             setupMap()
         }

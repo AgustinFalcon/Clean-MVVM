@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.challengeconexa.databinding.FragmentNewsBinding
 import com.example.challengeconexa.ui.adapter.NewsAdapter
 import com.example.challengeconexa.ui.view_model.NewsViewModel
+import com.example.challengeconexa.ui.view_model.StateErrorNew
 import com.example.challengeconexa.utils.EventObserver
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -60,8 +61,26 @@ class NewsFragment : Fragment() {
             dialogError(result)
         })
 
+        // Se pueden mostrar distintos popups o customizar segun lo deseado
         viewModel.failureNews.observe(viewLifecycleOwner, EventObserver { result ->
-            dialogError(result)
+            when (result) {
+                is StateErrorNew.ErrorUnknownUser -> {
+                    dialogError(result.message)
+                }
+
+                is StateErrorNew.ErrorNotInternet -> {
+                    dialogError(result.message)
+                }
+
+                is StateErrorNew.ErrorInvalidUser -> {
+                    dialogError(result.message)
+                }
+
+                is StateErrorNew.Default -> {
+                    dialogError(result.message)
+                }
+            }
+
         })
 
         viewModel.loadNews()

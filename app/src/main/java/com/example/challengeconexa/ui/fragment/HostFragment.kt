@@ -38,11 +38,6 @@ class HostFragment : Fragment() {
                 val action = HostFragmentDirections.actionHostFragmentToUsersFragment()
                 findNavController().navigate(action)
             }
-
-            btnMaps.setOnClickListener {
-                val action = HostFragmentDirections.actionHostFragmentToNewsFragment()
-                findNavController().navigate(action)
-            }
         }
 
     }

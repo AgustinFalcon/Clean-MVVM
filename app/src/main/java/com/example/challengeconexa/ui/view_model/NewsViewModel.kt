@@ -8,6 +8,7 @@ import com.example.challengeconexa.repository.Repository
 import com.example.challengeconexa.service.model.New
 import com.example.challengeconexa.service.model.User
 import com.example.challengeconexa.utils.Event
+import com.example.challengeconexa.utils.HttpCode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,15 +23,24 @@ class NewsViewModel @Inject constructor(
     val allNews: LiveData<Event<List<New>>> get() = _allNews
 
 
+     val failureNews = MutableLiveData<Event<StateErrorNew>>()
      val errorNews = MutableLiveData<Event<String>>()
-     val failureNews = MutableLiveData<Event<String>>()
 
     fun loadNews() {
         viewModelScope.launch {
             when(val response = repository.getNews()) {
                 is Result.Success -> _allNews.value = Event(response.data)
                 is Result.Error -> errorNews.value = Event(response.exception?.message ?: "Hubo un error inesperado")
-                is Result.Failure -> failureNews.value = Event(response.message ?: "Algo ha pasado")
+                is Result.Failure -> {
+                    when (response.code) {
+                        HttpCode.ErrorInvalidUser.code -> failureNews.value = Event(StateErrorNew.ErrorInvalidUser(response.message ?: "Usuario invalido"))
+                        HttpCode.ErrorNotInternet.code -> failureNews.value = Event(StateErrorNew.ErrorNotInternet(response.message ?: "No tiene internet"))
+                        HttpCode.ErrorUnknownUser.code -> failureNews.value = Event(StateErrorNew.ErrorUnknownUser(response.message ?: "Usuario desconocido"))
+                        else -> {
+                            failureNews.value = Event(StateErrorNew.Default(response.message ?: "Algo ha ocurrido"))
+                        }
+                    }
+                }
             }
 
         }
@@ -47,8 +57,15 @@ class NewsViewModel @Inject constructor(
                     _allNews.value = Event(filteredNews)
                 }
                 is Result.Error -> errorNews.value = Event(response.exception?.message ?: "Hubo un error inesperado")
-                is Result.Failure -> failureNews.value = Event(response.message ?: "Algo ha pasado")
+                is Result.Failure -> failureNews.value = Event(StateErrorNew.Default(response.message ?: "Algo ha ocurrido"))
             }
         }
     }
+}
+
+sealed class StateErrorNew() {
+    data class ErrorNotInternet(val message: String): StateErrorNew()
+    data class ErrorInvalidUser(val message: String): StateErrorNew()
+    data class ErrorUnknownUser(val message: String): StateErrorNew()
+    data class Default(val message: String): StateErrorNew()
 }

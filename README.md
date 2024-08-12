@@ -2,9 +2,11 @@
 
 ## Descripción
 
-Este proyecto tiene un listado de noticias donde utiliza su buscador para filtrar las noticias, donde si apretas en una noticia te lleva a su detalle.
-Por otro lado, tiene un listado de usuarios, donde si apretas en un usuario te lleva a su detalle y si apretas en el icono de localidad te lleva a la latitud y longitud marcada de dicho usuario.
+Este proyecto arranca con dos botones uno de noticias y otro de usuarios.
+- El boton de noticias tiene un listado donde utiliza su buscador para filtrar las noticias, donde si apretas en una noticia te lleva a su detalle.
+- Por otro lado, el boton de usuarios tiene un listado donde si apretas en un usuario te lleva a su detalle y si apretas en el icono de localidad te lleva a la latitud y longitud marcada de dicho usuario.
 
+- La clase Result encierra e identifica el llamado http mientras que la clase Evente se utiliza para limpiar los observers
 
 ## Librerias Utilizadas
 
@@ -15,6 +17,7 @@ Por otro lado, tiene un listado de usuarios, donde si apretas en un usuario te l
 - Coroutines
 - Espresso
 - GoogleMap
+- Safe Args
 
 
 ## Arquitectura del Proyecto

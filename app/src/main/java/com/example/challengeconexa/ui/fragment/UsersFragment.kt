@@ -39,20 +39,25 @@ class UsersFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-
-        val newsAdapter = UserAdapter { user ->
-            val action = UsersFragmentDirections.actionUsersFragmentToMapFragment(user.address.geo)
-            findNavController().navigate(action)
-            //val action = UsersFragmentDirections.actionUsersFragmentToDetailUserFragment(user)
-            //findNavController().navigate(action)
-        }
+        val newsAdapter = UserAdapter(
+            { user ->
+                val action = UsersFragmentDirections.actionUsersFragmentToDetailUserFragment(user)
+                findNavController().navigate(action)
+            },
+            { user ->
+                val action = UsersFragmentDirections.actionUsersFragmentToMapFragment(user.address.geo)
+                findNavController().navigate(action)
+            })
 
         binding.rvUsers.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(context)
         }
 
-        val divider = DividerItemDecoration(requireContext(), LinearLayoutManager(requireContext()).orientation)
+        val divider = DividerItemDecoration(
+            requireContext(),
+            LinearLayoutManager(requireContext()).orientation
+        )
         binding.rvUsers.addItemDecoration(divider)
 
         viewModel.users.observe(viewLifecycleOwner, EventObserver { result ->
