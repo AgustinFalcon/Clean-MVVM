@@ -21,7 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class UsersFragment : Fragment() {
 
-    private lateinit var binding: FragmentUsersBinding
+    lateinit var binding: FragmentUsersBinding
     private val viewModel: UsersViewModel by viewModels()
 
     override fun onCreateView(

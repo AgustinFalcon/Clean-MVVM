@@ -101,16 +101,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
 
-    fun setUserLocation(latitude: Double, longitude: Double) {
-        userLocation = LatLng(latitude, longitude)
-        if (::googleMap.isInitialized) {
-            googleMap.clear()
-            googleMap.addMarker(MarkerOptions().position(userLocation!!).title("User Location"))
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation!!, 15f))
-        }
-    }
-
-
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
     }

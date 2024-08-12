@@ -20,7 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class NewsFragment : Fragment() {
 
-    private lateinit var binding: FragmentNewsBinding
+    lateinit var binding: FragmentNewsBinding
     private val viewModel: NewsViewModel by viewModels()
 
 
