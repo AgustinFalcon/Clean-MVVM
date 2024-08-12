@@ -3,11 +3,56 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_host"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/hostFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.example.challengeconexa.ui.fragment.HomeFragment"
+        android:id="@+id/newsFragment"
+        android:name="com.example.challengeconexa.ui.fragment.NewsFragment"
         android:label="fragment_list"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_news" >
+
+        <action
+            android:id="@+id/action_homeFragment_to_detailNewsFragment"
+            app:destination="@id/detailNewsFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/detailNewsFragment"
+        android:name="com.example.challengeconexa.ui.fragment.detail.DetailNewsFragment"
+        android:label="fragment_detail_news"
+        tools:layout="@layout/fragment_detail_news" >
+        <argument
+            android:name="new"
+            app:argType="com.example.challengeconexa.service.model.New" />
+    </fragment>
+    <fragment
+        android:id="@+id/hostFragment"
+        android:name="com.example.challengeconexa.ui.fragment.HostFragment"
+        android:label="fragment_host"
+        tools:layout="@layout/fragment_host" >
+        <action
+            android:id="@+id/action_hostFragment_to_newsFragment"
+            app:destination="@id/newsFragment" />
+        <action
+            android:id="@+id/action_hostFragment_to_usersFragment"
+            app:destination="@id/usersFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/usersFragment"
+        android:name="com.example.challengeconexa.ui.fragment.UsersFragment"
+        android:label="fragment_users"
+        tools:layout="@layout/fragment_users" >
+        <action
+            android:id="@+id/action_usersFragment_to_detailUserFragment"
+            app:destination="@id/detailUserFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailUserFragment"
+        android:name="com.example.challengeconexa.ui.fragment.detail.DetailUserFragment"
+        android:label="fragment_detail_user"
+        tools:layout="@layout/fragment_detail_user" >
+        <argument
+            android:name="user"
+            app:argType="com.example.challengeconexa.service.model.User" />
+    </fragment>
 </navigation>

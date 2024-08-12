@@ -21,9 +21,6 @@ class NewsViewModel @Inject constructor(
     private val _allNews = MutableLiveData<Event<List<New>>>()
     val allNews: LiveData<Event<List<New>>> get() = _allNews
 
-    private val _users = MutableLiveData<Event<Result<List<User>>>>()
-    val users: LiveData<Event<Result<List<User>>>> get() = _users
-
 
      val errorNews = MutableLiveData<Event<String>>()
      val failureNews = MutableLiveData<Event<String>>()
@@ -52,12 +49,6 @@ class NewsViewModel @Inject constructor(
                 is Result.Error -> errorNews.value = Event(response.exception?.message ?: "Hubo un error inesperado")
                 is Result.Failure -> failureNews.value = Event(response.message ?: "Algo ha pasado")
             }
-        }
-    }
-
-    fun loadUsers() {
-        viewModelScope.launch {
-            _users.value = Event(repository.getUsers())
         }
     }
 }

@@ -8,20 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.challengeconexa.utils.Result
-import com.example.challengeconexa.databinding.FragmentHomeBinding
+import com.example.challengeconexa.databinding.FragmentNewsBinding
 import com.example.challengeconexa.ui.adapter.NewsAdapter
 import com.example.challengeconexa.ui.view_model.NewsViewModel
 import com.example.challengeconexa.utils.EventObserver
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.HiltAndroidApp
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class NewsFragment : Fragment() {
 
-    private lateinit var binding: FragmentHomeBinding
+    private lateinit var binding: FragmentNewsBinding
     private val viewModel: NewsViewModel by viewModels()
 
 
@@ -29,7 +28,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding = FragmentNewsBinding.inflate(inflater, container, false)
 
 
         return binding.root
@@ -41,17 +40,17 @@ class HomeFragment : Fragment() {
 
 
         val newsAdapter = NewsAdapter { news ->
-            //val action = NewsFragmentDirections.actionNewsFragmentToNewsDetailFragment(news)
-            //findNavController().navigate(action)
+            val action = NewsFragmentDirections.actionHomeFragmentToDetailNewsFragment(news)
+            findNavController().navigate(action)
         }
 
-        binding.rvUsersHome.apply {
+        binding.rvNews.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(context)
         }
 
         val divider = DividerItemDecoration(requireContext(), LinearLayoutManager(requireContext()).orientation)
-        binding.rvUsersHome.addItemDecoration(divider)
+        binding.rvNews.addItemDecoration(divider)
 
         viewModel.allNews.observe(viewLifecycleOwner, EventObserver { result ->
             newsAdapter.submitList(result)

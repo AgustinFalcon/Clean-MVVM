@@ -1,12 +1,14 @@
 package com.example.challengeconexa.service.model
 
+import java.io.Serializable
+
 data class User(
     val id: Int,
-    val name: String,
-    val username: String,
+    val firstname: String,
+    val lastname: String,
     val email: String,
     val address: Address
-)
+): Serializable
 
 data class Address(
     val street: String,
@@ -14,10 +16,10 @@ data class Address(
     val city: String,
     val zipcode: String,
     val geo: Geo
-)
+): Serializable
 
 data class Geo(
     val lat: String,
     val lng: String
-)
+): Serializable
 

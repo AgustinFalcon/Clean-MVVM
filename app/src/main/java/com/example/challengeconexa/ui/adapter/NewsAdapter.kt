@@ -5,12 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.challengeconexa.databinding.ItemRvUsersHomeBinding
+import com.example.challengeconexa.databinding.ItemRvNewsBinding
 import com.example.challengeconexa.service.model.New
 
 class NewsAdapter(private val itemClickListener: (New) -> Unit) : ListAdapter<New, NewsAdapter.NewsViewHolder>(DiffCallback()) {
 
-    inner class NewsViewHolder(private val binding: ItemRvUsersHomeBinding)
+    inner class NewsViewHolder(private val binding: ItemRvNewsBinding)
         : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(new: New) {
@@ -23,7 +23,7 @@ class NewsAdapter(private val itemClickListener: (New) -> Unit) : ListAdapter<Ne
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding = ItemRvUsersHomeBinding.inflate(layoutInflater, parent, false)
+        val binding = ItemRvNewsBinding.inflate(layoutInflater, parent, false)
         return NewsViewHolder(binding = binding)
     }
 
